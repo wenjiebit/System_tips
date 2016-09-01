@@ -22,7 +22,7 @@ Linux系统（iso镜像文件），此次我用的是旗下的ubuntu12.04版本
                In the end它会显示你写入成功！
 三：U盘启动，进行安装即可
 
-2 双系统安装完成后没有Win7启动项，需要再Linux中安装grub，然后修改grub.cfg进行reboot:
+2 双系统安装完成后没有Win7启动项，需要再Linux中安装grub，然后修改grub.cfg进行reboot: 或者是直接在命令窗口sudo update-grub2，这样就能找到windows的引导程序了
 
 win7基础上，硬盘安装cent OS 7.0 minimal 的iso镜像：
 
@@ -30,7 +30,7 @@ win7基础上，硬盘安装cent OS 7.0 minimal 的iso镜像：
 1. 安装界面分区时，手动分配/boot,/swap会有各种问题，有可能是安装的bug。直接使用自动分配，即可解决。
 
 
-2. 安装cent OS后，启动界面win7启动项丢失。解决方案:
+2. 安装cent OS后，启动界面win7启动项丢失。解决方案：
 
 一： 
 
