@@ -3,6 +3,7 @@
 3 该文章最后提供的修改grub的方法不好使，本人解决方法是修改40_cmstom后把-n +3 改成+4，然后再在最后加上mac os系统引导，但是还不好用。最后利用mac开机
 选择引导盘的方式可以进入mac os，具体方法是开机时长按option手动选择引导盘，这样会出现一个磁盘符，直接点回车就可以进入MAC OS了。但是每次开机都需要
 这样操作。
+4 http://blog.csdn.net/luopingfeng/article/details/40016359
 
 要在 MacBook Air 上安装 ubuntu 的双系统，先下载 Ubuntu 的安装镜像文件，这次下载的是 Ubuntu 14.04 LTS 版本，代号是Trusty Tahr。利用 USB 盘制作出 Ubuntu 开机用 U 盘，在 MacBook Air 上把 ISO 格式的镜像文件转换成 dmg 格式。
 
