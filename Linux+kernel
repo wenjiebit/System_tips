@@ -1,0 +1,5 @@
+更换内核的方法：
+
+查找可以使用的内核版本:apt-cache search linux
+安装制定内核版本：sudo apt-get install linux-headers-2.6.39-0-generic linux-image-2.6.39-0-generic
+删除制定内核版本：sudo apt-get purge linux-headers-2.6.39-0-generic linux-image-2.6.39-0-generic
