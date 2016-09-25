@@ -1,0 +1,18 @@
+1. BIOS中北桥设置显卡方式，首先选择成集成显卡方式，不用auto模式；
+2. 启动，lspci |grep VGA 查看当前显示硬件设备，根据型号去Nvidia官网下载相应驱动,如NVIDIA-Linux-x86_64-346.59.run.
+3. 彻底卸载已安装的显卡驱动程序:
+sudo apt-get remove --purge nvidia-*
+sudo apt-get install ubuntu-desktop
+sudo rm /etc/X11/xorg.conf
+echo 'nouveau' | sudo tee -a /etc/modules
+4. 关闭开源驱动nouveau：
+编辑 /etc/modprobe.d/blacklist.conf ，在文件后面加入blacklist nouveau 
+5. 在登录页面按Ctrl+Alt+F1进入tty,login in后， 关闭lightdm。
+sudo service lightdm stop
+6. sudo chmod 777 NVIDIA-Linux-x86_64-346.59.run
+7. sudo ./chmod 777 NVIDIA-Linux-x86_64-346.59.run
+8. 显示安装成功后sudo service lightdm start
+9. 此时显示状态不对，因为VGA是插在集显上面的，然后重启进入bios设置北桥中显卡为auto,然后VGA插到独显接口即可；
+
+注：因为英伟达驱动安装需要linux内核源码，所以内核更新或者升级后显卡驱动需要重新安装，另外，如果内核版本不对或者内核源码没有，安装也失败，最好办法是重新
+下载一个新版的ubuntu系统，重新安装。
