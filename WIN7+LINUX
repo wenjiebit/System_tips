@@ -1,0 +1,18 @@
+先装了Linux,或者装双系统后win7系统哪天瘫痪需要重新安装时，不需要再卸载Linux,软碟通制作winPE然后选择镜像进行安装，然后正常进入win7，但是开机没有grub2了
+需要win7中下载easy-bcd，添加linux引导即可。
+具体参见：http://blog.163.com/liuxin_arm/blog/static/1832914232013102610564467/
+先安装Ubuntu，后安装win8，启动菜单的问题
+
+正常情况下，我们是都是先安装 windows，然后再安装 Ubuntu，这样有一个grub的启动菜单，包括windows和Ubuntu.但是如果重装了windows之后，启动的时候，就没有启动菜单了。这时只能进Windows，进不了Ubuntu。如何解决？
+
+解决方法如下：
+ （1）在Win8上安装EasyBCD，添加一个启动项，选择【linux/bsd】，下面的类型选择【grub2】它会自动寻找ubuntu的位置。
+先安装Ubuntu，后安装win8，启动菜单的问题 - liuxin_arm - 工程师成长之路
+（2）重启系统，就会在开机的时候看到一个启动菜单
+windows 8 x86
+Neosmart linux
+（3）选择从Neosmart Linux 进入系统，此时会看到如下信息：
+           GRUB loading
+           error: unknow filesystem
+           grub rescue> 
+（4）剩下的操作，请参考日志《ubuntu出现grub rescue解决办法》
