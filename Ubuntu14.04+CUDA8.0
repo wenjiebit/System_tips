@@ -1,0 +1,19 @@
+1 从CUDA网站下载deb文件，大概2G。 https://developer.nvidia.com/cuda-downloads
+2 解压文件 sudo dpkg -i cuda-repo-ubuntu1404_xx-xx_amd64.deb
+3 sudo apt-get update 
+4 sudo apt-get install cuda
+
+安装完成后修改环境变量，sudo gedit .bashrc，在最后添加：
+export PATH=/usr/local/cuda-8.0/bin${PATH:+:${PATH}}
+export LD_LIBRARY_PATH=/usr/local/cuda-8.0/lib64${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
+
+Test CUDA SDK Samples:
+例如： 当然还有其他很多例子，可以进行编译然后运行看看CUDA是否已经安装成功
+$ cuda-install-samples-7.5.sh  ~ 
+$ cd ~/NVIDIA_CUDA-7.5_Samples 
+$ cd 1_Utilities/deviceQuery 
+$ make 
+
+检测CUDA是否安装成功：
+nvcc -V   查看CUDA版本
+nvidia-smi 查看CUDA和显卡情况
