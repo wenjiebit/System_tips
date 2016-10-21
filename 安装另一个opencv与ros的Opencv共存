@@ -1,0 +1,91 @@
+有些时候因为需要，需要安装另一个版本的Opencv,比如安装一个支持cuda的opnecv，见上一个例子。
+这时候为了避免两个opencv冲突，需要对每个工程cmakelist特别注意。
+
+具体而言，只要使每个工程能找到opencv就可以。一般而言，在ros工作空间的package找opencv的方式不用改变，只要依赖包，然后find_package再连接即可。而其他工程
+需要注意，需要将新的opencv地址告诉系统，另外让工程可以找到找对，具体见http://answers.ros.org/question/47249/problem-with-using-opencv_gpu-inside-ros/。
+
+Problem with using opencv_GPU inside ROS
+libopencv_gpu
+gpu
+ROS
+opencv2.4
+cuda
+asked Nov 1 '12
+this post is marked as community wiki
+This post is a wiki. Anyone with karma >75 is welcome to improve it.
+Hi ALl,
+
+I am very new into ROS. I wanted to use GPU support from OpenCv inside ROS platform. But I faced an error where it said ROS opencv is built without CUDA support. The I tried to build myself OpenCv(after downloading from OpenCv website) with CUDA support into the /usr/local . I wanted to test it with a simple code. But EVen though the version I downloaded and built is built with CUDA. My project somehow connects to the CV from ROS-fuerte and gives me an error as below.
+
+OpenCV Error: No GPU support (The library is compiled without CUDA support) in mallocPitch, file /tmp/buildd/ros-fuerte-opencv2-2.4.2-0precise-20120908-1632/modules/core/src/gpumat.cpp, line 749 terminate called after throwing an instance of 'cv::Exception' what(): /tmp/buildd/ros-fuerte-opencv2-2.4.2-0precise-20120908-1632/modules/core/src/gpumat.cpp:749: error: (-216) The library is compiled without CUDA support in function mallocPitch
+
+I have two questions. I am sure many of you will find it very simple problem. I am unable to understand how I can solve the below problems..
+
+1) How can I use my local copy of OpenCv which I built with CUDA support ? 2) Is it possible to use it also in ROS ignoring the prebuilt openCv in ROS which is without CUDA support ?
+
+regards, Subhasis
+Comments
+can you use cuda with opencv in ROS? if you can ,would you share your Experience?my mail is goujiaolong@gmail.com thanks a lot .
+longzhixi123 gravatar imagelongzhixi123 (Apr 23 '13)
+add a comment
+3 answers Sort by » oldestnewestmost voted
+7
+answered Nov 2 '12
+this post is marked as community wiki
+This post is a wiki. Anyone with karma >75 is welcome to improve it.
+Yes, you can use your custom-built OpenCV instead of those provided by ROS.
+
+Add this line to your .bashrc(or anywhere similarly where you set ROS environments):
+
+export CMAKE_PREFIX_PATH=/usr/local:$CMAKE_PREFIX_PATH
+Make sure your CMAKE_PREFIX_PATH is like this(/usr/local is the path prefix where you installed OpenCV):
+
+$ echo $CMAKE_PREFIX_PATH
+/usr/local:/opt/ros/fuerte/share/catkin/cmake/Modules:/opt/ros/fuerte
+Then add these lines to your CMakelists.txt:
+
+find_package(OpenCV 2.4 REQUIRED)
+include_directories(${OpenCV_INCLUDE_DIRS})
+...
+target_link_libraries(YOUR_TARGET ${OpenCV_LIBS})
+Start a new term and remove old build/* files, then make again. In this case CMake can find your installed OpenCV first.
+link Comments
+Hi K Chen, I've followed your steps however I am still having some issues with my program still being compiled with OPENCV2.4.2. I trying to debug this with no success. I checked the pkg that CMAKE is grabbing which is OPENCV2.3.1 which is what I want but when I compile and run I get 2.4.2 errors.
+Rookdroid gravatar imageRookdroid (Mar 13 '13)
+Which version of OpenCV do you want? ROS Fuerte provides OpenCV 2.4.x and if you want to use other versions or your custom built libs, refer to the instruction above and change the version xx in find_package(OpenCV xx)
+K Chen gravatar imageK Chen (Mar 14 '13)
+Hi K Chen,I want to know what should be changed in your sugestions with ROS-electric? thanks
+746666288 gravatar image746666288 (Mar 24 '13)
+I am not sure if this works for ROS Electric, but the $CMAKE_PREFIX_PATH is available for all current CMake versions, so you can give it a try. And if you have a rosdep in your manifest.xml, don't forget to remove it, or it can be confusing if you depends on two OpenCV version.
+K Chen gravatar imageK Chen (Mar 31 '13)
+thanks .your comments are very useful.haha
+746666288 gravatar image746666288 (Mar 31 '13)
+add a comment
+0
+answered Dec 2 '12
+this post is marked as community wiki
+This post is a wiki. Anyone with karma >75 is welcome to improve it.
+Hi
+
+I also have the same issue, but I use qmake insted of cmake. Maybe someone khnow how make the same thing with it. I mean make local libraries recognies before ROS libraries.
+
+I made the modification in the .bashrc file. For being sur I close my IDE. Open a new bash window, restart my IDE on my project, clean all, and recompile. But even with that the linker look the opencv's plugins (.so), in the ROS stack.
+
+Regards, Teddy
+link Comments
+I don't recommend qmake because ROS uses CMake to construct projects. Meanwhile, converting from qmake project to CMake is easy, see this: http://qt-project.org/quarterly/view/using_cmake_to_build_qt_projects
+K Chen gravatar imageK Chen (Dec 6 '12)
+add a comment
+0
+answered Nov 4 '12
+this post is marked as community wiki
+This post is a wiki. Anyone with karma >75 is welcome to improve it.
+I suffered from the same problem. The answer seems helpful. Thank you :)
+
+However, i want to use c/c++ codes with CUDA separately from ROS. What can i do?
+
+Actually, I installed opencv with CUDA support into the /usr/local. and I already tested some sampled codes provided with opencv installation files. Then, I installed ROS fuerte. After ROS installation, I got errors when I tried to execute some codes I already tested. Error messages are followings, OpenCV Error: No GPU support (The library is compiled without CUDA support) in getDevice, file /tmp/buildd/ros-fuerte-opencv2-2.4.2-0precise-20120908-1624/modules/core/src/gpumat.cpp, line 182 /tmp/buildd/ros-fuerte-opencv2-2.4.2-0precise-20120908-1624/modules/core/src/gpumat.cpp:182: error: (-216) The library is compiled without CUDA support in function getDevice
+
+regards, jhlim
+link Comments
+The solution provided above can be applied to any CMake projects. Your problem arise because installing ROS will set $CMAKE_PREFIX_PATH and after that your project will first find the opencv package provided with ROS, not the one you built. Just add "/usr/local" to $CMAKE_PREFIX_PATH and build again
