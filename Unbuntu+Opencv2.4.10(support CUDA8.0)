@@ -1,0 +1,8 @@
+1 download wenjiebit/Install-OpenCV, cd到Ubuntu/2.4
+2 sudo chmod +x *
+3 不要按照教程直接运行 ./opencv_2.4.10.sh
+4 先运行到 rm OpenCV-2.4.10.zip 及 cd opencv-2.4.10就结束
+5 然后找到下载的Opencv中modules下graphcuts.cpp后将
+#if !defined(HAVE_CUDA) || defined(CUDA_DISABLER) 改为 #if !defined(HAVE_CUDA) || defined (CUDA_DISABLER) || (CUDART_VERSION >= 8000)
+这是因为opencv目前和CUDA8.0没有完全处理好
+6 随后接着运行sh文件后的命令即可
