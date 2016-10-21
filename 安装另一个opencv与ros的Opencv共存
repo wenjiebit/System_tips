@@ -4,6 +4,8 @@
 具体而言，只要使每个工程能找到opencv就可以。一般而言，在ros工作空间的package找opencv的方式不用改变，只要依赖包，然后find_package再连接即可。而其他工程
 需要注意，需要将新的opencv地址告诉系统，另外让工程可以找到找对，具体见http://answers.ros.org/question/47249/problem-with-using-opencv_gpu-inside-ros/。
 
+另外，为了防止找错，可以在find_package把opencv的版本号告诉文件。
+
 Problem with using opencv_GPU inside ROS
 libopencv_gpu
 gpu
